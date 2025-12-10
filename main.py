@@ -3,7 +3,11 @@ import asyncio
 from aiogram import Bot, Dispatcher
 from aiogram.filters import CommandStart
 from aiogram import types
-from config import TOKEN
+from dotenv import load_dotenv
+
+load_dotenv()
+
+bot = telebot.TeleBot(os.getenv('BOT_TOKEN'))
 from handlers import start_handler, message_handler
 
 dp = Dispatcher()
@@ -17,4 +21,5 @@ async def main():
     await dp.start_polling(bot)
 
 if __name__ == '__main__':
+
     asyncio.run(main())
