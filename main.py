@@ -1,16 +1,12 @@
 # main.py
 import asyncio
 from aiogram import Bot, Dispatcher
-from aiogram.filters import CommandStart
-from aiogram import types
+from aiogram.fsm.storage.memory import MemoryStorage
 from config import TOKEN
-from handlers import start_handler, message_handler
+from handlers import router  # ← ИМПОРТИРУЕМ РОУТЕР!
 
-dp = Dispatcher()
-
-# Регистрируем handlers
-dp.message.register(start_handler, CommandStart())
-dp.message.register(message_handler)  # Это поймает все сообщения, включая медиа
+dp = Dispatcher(storage=MemoryStorage())  # ← Добавляем storage
+dp.include_router(router)  # ← Подключаем роутер
 
 async def main():
     bot = Bot(token=TOKEN)
