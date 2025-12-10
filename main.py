@@ -2,8 +2,7 @@ import asyncio
 import logging
 from aiogram import Bot, Dispatcher
 from aiogram.fsm.storage.memory import MemoryStorage
-from config import TOKEN
-from handlers import router
+from config import TOKEN, OWNER_ID, CHANNEL_ID  # ← ИМПОРТИРУЕМ ВСЕ НУЖНЫЕ ПЕРЕМЕННЫЕ!
 
 # Настройка логирования
 logging.basicConfig(level=logging.INFO)
@@ -18,12 +17,13 @@ async def main():
         storage = MemoryStorage()
         dp = Dispatcher(storage=storage)
         
-        # Подключаем роутер
+        # Импортируем и подключаем роутер
+        from handlers import router
         dp.include_router(router)
         
         logger.info("🤖 Бот запущен и готов к работе!")
-        logger.info(f"📞 Владелец: {config.OWNER_ID}")
-        logger.info(f"📢 Канал: {config.CHANNEL_ID}")
+        logger.info(f"📞 Владелец: {OWNER_ID}")  # ← Теперь OWNER_ID доступен
+        logger.info(f"📢 Канал ID: {CHANNEL_ID}")
         
         # Запускаем
         await dp.start_polling(bot)
